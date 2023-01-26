@@ -1,11 +1,11 @@
 import { google } from 'googleapis';
 import type { PageServerLoad } from './$types';
 
-import { SHEET_ID } from '$env/static/private';
+import { SHEET_ID, GOOGLE_API_CREDENTIALS } from '$env/static/private';
 
 export const load = (async () => {
 	const auth = await google.auth.getClient({
-		keyFilename: './secrets.json',
+		keyFilename: GOOGLE_API_CREDENTIALS,
 		scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly']
 	});
 
