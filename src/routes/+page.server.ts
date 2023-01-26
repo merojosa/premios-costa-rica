@@ -22,9 +22,10 @@ export const load = (async () => {
 
 	const sheetsArray = await sheets.spreadsheets.get({ spreadsheetId: SHEET_ID });
 
-	const years = sheetsArray.data.sheets?.map((data) => {
-		return data.properties?.title;
-	});
+	const years =
+		sheetsArray.data.sheets?.map((data) => {
+			return data.properties?.title;
+		}) || [];
 
-	console.log('BREAKPOINT test', years);
+	return { years };
 }) satisfies PageServerLoad;
