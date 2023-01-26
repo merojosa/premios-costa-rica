@@ -4,8 +4,13 @@ import type { PageServerLoad } from './$types';
 import { SHEET_ID, GOOGLE_API_CREDENTIALS } from '$env/static/private';
 
 export const load = (async () => {
+	const apiEnvs = JSON.parse(GOOGLE_API_CREDENTIALS) as Record<string, string>;
+
 	const auth = await google.auth.getClient({
-		keyFilename: GOOGLE_API_CREDENTIALS,
+		credentials: {
+			private_key: apiEnvs.private_key,
+			client_email: apiEnvs.client_email
+		},
 		scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly']
 	});
 
