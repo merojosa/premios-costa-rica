@@ -3,7 +3,7 @@ import type { PageServerLoad } from './$types';
 
 import { SHEET_ID, GOOGLE_API_CREDENTIALS } from '$env/static/private';
 
-export const load = (async () => {
+export const load = (async ({ setHeaders }) => {
 	const apiEnvs = JSON.parse(GOOGLE_API_CREDENTIALS) as Record<string, string>;
 
 	const auth = await google.auth.getClient({
@@ -23,7 +23,7 @@ export const load = (async () => {
 
 	const data = response.data.values?.flat();
 
-	console.log('BREAKPOINT response', data);
+	console.log('BREAKPOINT server response', data);
 
 	const sheetsArray = await sheets.spreadsheets.get({ spreadsheetId: SHEET_ID });
 
@@ -31,6 +31,10 @@ export const load = (async () => {
 		sheetsArray.data.sheets?.map((data) => {
 			return data.properties?.title;
 		}) || [];
+
+	setHeaders({
+		'cache-control': 'max-age=180'
+	});
 
 	return { years };
 }) satisfies PageServerLoad;
