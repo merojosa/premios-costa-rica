@@ -7,6 +7,8 @@
 
 <h1>Welcome to SvelteKit</h1>
 
+<a href="/award">Award</a>
+
 <ul>
 	{#each data.years as item}
 		<li>{item}</li>
